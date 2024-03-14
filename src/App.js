@@ -8,7 +8,6 @@ function App() {
     setEditorState(newEditorState);
 };
 
-
 const styleMap = {
   'red-line': {
     color:'red',
@@ -18,26 +17,20 @@ const styleMap = {
   },
 };
 const deleteLastChars = (number) => {
-  // Get the current content and selection state
   const contentState = editorState.getCurrentContent();
   const selectionState = editorState.getSelection();
 
-  // Get the last two characters' selection
   const lastTwoCharactersSelection = selectionState.merge({
       anchorOffset: selectionState.getEndOffset() - number,
       focusOffset: selectionState.getEndOffset(),
   });
 
-  // Modify the content to remove the last two characters
   const newContentState = Modifier.removeRange(contentState, lastTwoCharactersSelection, 'backward');
 
-  // Update the editor state with the modified content
   const newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
-  // setEditorState(newEditorState);
   return newEditorState
 };
   useEffect(() => {
-    // Load content from local storage on component mount
     const savedContent = localStorage.getItem('editorContent');
     if (savedContent) {
       setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(savedContent))));
