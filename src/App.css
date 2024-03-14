@@ -15,6 +15,7 @@
   height: 80%;
   border: 3px solid #000;
   border-radius: 3px;
+  overflow: scroll;
 }
 .App{
   display: flex;
@@ -22,15 +23,15 @@
   background-color: white;
   justify-content: center;
   align-items: center;
-  width: 100vw; 
-  height: 100vh;  
-  border: 1px solid #000;
+  width: 99vw; 
+  height: 99vh;  
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   font-family: "Comfortaa", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
+  
   button{
     border-left:2px solid black ;
     border-top:2px solid black ;
@@ -45,6 +46,7 @@
 .editor{
   /* background-color: red; */
   margin-top: 3rem;
+  height: 100%;
   /* border: 1px solid black; */
 }
 

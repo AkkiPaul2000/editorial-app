@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import {ContentState, Editor, EditorState, Modifier, RichUtils, SelectionState, convertFromRaw, convertToRaw} from 'draft-js';
+import {ContentState, Editor, EditorState, Modifier, RichUtils, SelectionState, convertFromRaw, convertToRaw, getDefaultKeyBinding} from 'draft-js';
 
 function App() {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -44,6 +44,7 @@ const deleteLastChars = (number) => {
     }
   }, []);
  
+  
   const handleBeforeInput = (char) => {
     const currentContent = editorState.getCurrentContent();
     const selectionState = editorState.getSelection();
@@ -51,39 +52,39 @@ const deleteLastChars = (number) => {
     const currentText = currentBlock.getText();
     const currentBlockType = currentBlock.getType();
     const currentInlineStyles = editorState.getCurrentInlineStyle().toArray(); 
-    console.log(currentText,currentBlockType,currentInlineStyles)
-    if (currentText.slice(-1)=="#" && char === ' ' && currentBlockType.indexOf("header-one")==-1 ) {
+    // console.log(currentText,currentBlockType,currentInlineStyles)
+    if (currentText.slice(-1)=="#" && char === ' ' ) {
       const newEditorState=deleteLastChars(1)
       setEditorState(RichUtils.toggleBlockType(newEditorState, 'header-one'));
       return 'handled';
     }
-    else if (currentText.slice(-1)==" " && char === '#' && currentBlockType.indexOf("header-one")!=-1 ) {
-      const newEditorState=deleteLastChars(1)
-      setEditorState(RichUtils.toggleBlockType(newEditorState, 'header-one'));
-      return 'handled';
-    }
+    // else if (currentText.slice(-1)==" " && char === '#' && currentBlockType.indexOf("header-one")!=-1 ) {
+    //   const newEditorState=deleteLastChars(1)
+    //   setEditorState(RichUtils.toggleBlockType(newEditorState, 'header-one'));
+    //   return 'handled';
+    // }
     
-     if (currentText.slice(-3)=="***" && char === ' ' && currentInlineStyles.indexOf("UNDERLINE")==-1 ) {
+     if (currentText.slice(-3)=="***" && char === ' ') {
       const newEditorState=deleteLastChars(3)
       setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'UNDERLINE'));
       return 'handled';
     }
-    else if (currentText.slice(-3)==" **" && char === '*' && currentInlineStyles.indexOf("UNDERLINE")!=-1 ) {
-      const newEditorState=deleteLastChars(3)
-      setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'UNDERLINE'));
-      return 'handled';
-    }
-     if (currentText.slice(-3)=="```" && char === ' ' && currentInlineStyles.indexOf("HIGHLIGHTED")==-1 ) {
-      const newEditorState=deleteLastChars(3)
-      setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'HIGHLIGHTED'));
-      return 'handled';
-    }
-    else if (currentText.slice(-3)==" ``" && char === '`' && currentInlineStyles.indexOf("HIGHLIGHTED")!=-1 ) {
+    // else if (currentText.slice(-3)==" **" && char === '*' && currentInlineStyles.indexOf("UNDERLINE")!=-1 ) {
+    //   const newEditorState=deleteLastChars(3)
+    //   setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'UNDERLINE'));
+    //   return 'handled';
+    // }
+     if (currentText.slice(-3)=="```" && char === ' ' ) {
       const newEditorState=deleteLastChars(3)
       setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'HIGHLIGHTED'));
       return 'handled';
     }
-    if (currentText.slice(-2)=="**" && char === ' ' && currentInlineStyles.indexOf("red-line")==-1 ) {
+    // else if (currentText.slice(-3)==" ``" && char === '`' && currentInlineStyles.indexOf("HIGHLIGHTED")!=-1 ) {
+    //   const newEditorState=deleteLastChars(3)
+    //   setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'HIGHLIGHTED'));
+    //   return 'handled';
+    // }
+    if (currentText.slice(-2)=="**" && char === ' ') {
       const newEditorState1=deleteLastChars(2)
       const newEditorState = RichUtils.toggleInlineStyle(newEditorState1, 'red-line');
             onChange(newEditorState);
@@ -91,23 +92,23 @@ const deleteLastChars = (number) => {
             return 'handled';
       
     }
-    else if (currentText.slice(-2)==" *" && char === '*' && currentInlineStyles.indexOf("red-line")!=-1 ) {
-      const newEditorState1=deleteLastChars(2)
-      const newEditorState = RichUtils.toggleInlineStyle(newEditorState1, 'red-line');
-            onChange(newEditorState);
-            return 'handled';
+    // else if (currentText.slice(-2)==" *" && char === '*' && currentInlineStyles.indexOf("red-line")!=-1 ) {
+    //   const newEditorState1=deleteLastChars(2)
+    //   const newEditorState = RichUtils.toggleInlineStyle(newEditorState1, 'red-line');
+    //         onChange(newEditorState);
+    //         return 'handled';
       
-    }
-     if (currentText.slice(-1)=="*" && char === ' ' && currentInlineStyles.indexOf("BOLD")==-1 ) {
+    // }
+     if (currentText.slice(-1)=="*" && char === ' ' ) {
       const newEditorState=deleteLastChars(1)
       setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'BOLD'));
       return 'handled';
     }
-    else if (currentText.slice(-1)==" " && char === '*' && currentInlineStyles.indexOf("BOLD")!=-1 ) {
-      const newEditorState=deleteLastChars(1)
-      setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'BOLD'));
-      return 'handled';
-    }
+    // else if (currentText.slice(-1)==" " && char === '*' && currentInlineStyles.indexOf("BOLD")!=-1 ) {
+    //   const newEditorState=deleteLastChars(1)
+    //   setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'BOLD'));
+    //   return 'handled';
+    // }
     
     return 'not-handled';
   };
