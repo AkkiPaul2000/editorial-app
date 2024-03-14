@@ -27,6 +27,10 @@
   border: 1px solid #000;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
+  font-family: "Comfortaa", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
   button{
     border-left:2px solid black ;
     border-top:2px solid black ;
@@ -40,21 +44,15 @@
 }
 .editor{
   /* background-color: red; */
-  border: 1px solid black;
+  margin-top: 3rem;
+  /* border: 1px solid black; */
 }
-.red-line {
-  border-bottom: 2px solid red;
-  color:red
-}
-#red-line{
-  border-bottom: 2px solid red;
-  color:yellow;
-}
-:red-line{
-  border-bottom: 2px solid red;
-  color:yellow;
-}
-.red-line{
-  border-bottom: 2px solid red;
-  color:yellow;
+
+
+.DraftEditor-root {
+  .public-DraftEditor-content {
+      .public-DraftStyleDefault-block {
+          margin: 16px; /* Adjust as needed */
+      }
+  }
 }

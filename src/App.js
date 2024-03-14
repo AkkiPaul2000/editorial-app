@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import {ContentState, Editor, EditorState, Modifier, RichUtils, convertFromRaw, convertToRaw} from 'draft-js';
+import {ContentState, Editor, EditorState, Modifier, RichUtils, SelectionState, convertFromRaw, convertToRaw} from 'draft-js';
 
 function App() {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -15,9 +15,27 @@ const styleMap = {
   },
   'HIGHLIGHTED':{
     backgroundColor:'yellow',
-  }
+  },
 };
+const deleteLastChars = (number) => {
+  // Get the current content and selection state
+  const contentState = editorState.getCurrentContent();
+  const selectionState = editorState.getSelection();
 
+  // Get the last two characters' selection
+  const lastTwoCharactersSelection = selectionState.merge({
+      anchorOffset: selectionState.getEndOffset() - number,
+      focusOffset: selectionState.getEndOffset(),
+  });
+
+  // Modify the content to remove the last two characters
+  const newContentState = Modifier.removeRange(contentState, lastTwoCharactersSelection, 'backward');
+
+  // Update the editor state with the modified content
+  const newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
+  // setEditorState(newEditorState);
+  return newEditorState
+};
   useEffect(() => {
     // Load content from local storage on component mount
     const savedContent = localStorage.getItem('editorContent');
@@ -25,7 +43,7 @@ const styleMap = {
       setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(savedContent))));
     }
   }, []);
-  
+ 
   const handleBeforeInput = (char) => {
     const currentContent = editorState.getCurrentContent();
     const selectionState = editorState.getSelection();
@@ -35,50 +53,59 @@ const styleMap = {
     const currentInlineStyles = editorState.getCurrentInlineStyle().toArray(); 
     console.log(currentText,currentBlockType,currentInlineStyles)
     if (currentText.slice(-1)=="#" && char === ' ' && currentBlockType.indexOf("header-one")==-1 ) {
-      console.log(editorState)
-      setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'));
+      const newEditorState=deleteLastChars(1)
+      setEditorState(RichUtils.toggleBlockType(newEditorState, 'header-one'));
       return 'handled';
     }
     else if (currentText.slice(-1)==" " && char === '#' && currentBlockType.indexOf("header-one")!=-1 ) {
-      console.log(editorState)
-      setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'));
+      const newEditorState=deleteLastChars(1)
+      setEditorState(RichUtils.toggleBlockType(newEditorState, 'header-one'));
       return 'handled';
     }
     
     else if (currentText.slice(-3)=="***" && char === ' ' && currentInlineStyles.indexOf("UNDERLINE")==-1 ) {
-      setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
+      const newEditorState=deleteLastChars(3)
+      setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'UNDERLINE'));
       return 'handled';
     }
     else if (currentText.slice(-3)==" **" && char === '*' && currentInlineStyles.indexOf("UNDERLINE")!=-1 ) {
-      setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
+      const newEditorState=deleteLastChars(3)
+      setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'UNDERLINE'));
       return 'handled';
     }
     else if (currentText.slice(-3)=="```" && char === ' ' && currentInlineStyles.indexOf("HIGHLIGHTED")==-1 ) {
-      setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHTED'));
+      const newEditorState=deleteLastChars(3)
+      setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'HIGHLIGHTED'));
       return 'handled';
     }
-    else if (currentText.slice(-3)=="``" && char === '`' && currentInlineStyles.indexOf("HIGHLIGHTED")!=-1 ) {
-      setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHTED'));
+    else if (currentText.slice(-3)==" ``" && char === '`' && currentInlineStyles.indexOf("HIGHLIGHTED")!=-1 ) {
+      const newEditorState=deleteLastChars(3)
+      setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'HIGHLIGHTED'));
       return 'handled';
     }
     else if (currentText.slice(-2)=="**" && char === ' ' && currentInlineStyles.indexOf("red-line")==-1 ) {
-      const newEditorState = RichUtils.toggleInlineStyle(editorState, 'red-line');
+      const newEditorState1=deleteLastChars(2)
+      const newEditorState = RichUtils.toggleInlineStyle(newEditorState1, 'red-line');
             onChange(newEditorState);
+
             return 'handled';
-      return 'handled';
+      
     }
     else if (currentText.slice(-2)==" *" && char === '*' && currentInlineStyles.indexOf("red-line")!=-1 ) {
-      const newEditorState = RichUtils.toggleInlineStyle(editorState, 'red-line');
+      const newEditorState1=deleteLastChars(2)
+      const newEditorState = RichUtils.toggleInlineStyle(newEditorState1, 'red-line');
             onChange(newEditorState);
             return 'handled';
-      return 'handled';
+      
     }
     else if (currentText.slice(-1)=="*" && char === ' ' && currentInlineStyles.indexOf("BOLD")==-1 ) {
-      setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
+      const newEditorState=deleteLastChars(1)
+      setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'BOLD'));
       return 'handled';
     }
     else if (currentText.slice(-1)==" " && char === '*' && currentInlineStyles.indexOf("BOLD")!=-1 ) {
-      setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
+      const newEditorState=deleteLastChars(1)
+      setEditorState(RichUtils.toggleInlineStyle(newEditorState, 'BOLD'));
       return 'handled';
     }
     
@@ -97,13 +124,13 @@ const styleMap = {
         Save
       </button>    </div>
     <div className='editor-outer'>
-      
     <div className='editor'>
       <Editor
         editorState={editorState}
         customStyleMap={styleMap}
         onChange={onChange}
         handleBeforeInput={handleBeforeInput}
+        
       />
       {/* {console.log(editorState)} */}
     </div>
