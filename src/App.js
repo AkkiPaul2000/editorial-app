@@ -132,7 +132,7 @@ const deleteLastChars = (number) => {
         customStyleMap={styleMap}
         onChange={onChange}
         handleBeforeInput={handleBeforeInput}
-        
+        autoFocus
       />
       {/* {console.log(editorState)} */}
     </div>
