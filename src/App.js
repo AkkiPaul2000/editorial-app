@@ -120,7 +120,8 @@ const deleteLastChars = (number) => {
   return (
     <div className="App">
     <div style={{display:'flex',width:'80%',}}>
-    <p style={{marginLeft:'42%',flex:8}}>Demo editor by Akash Paul</p>
+    {/* <p style={{marginLeft:'42%',flex:8}}>Demo editor by Akash Paul</p> */}
+    <p className='heading'>Demo editor by Akash Paul</p>
     <button onClick={() => localStorage.setItem('editorContent', JSON.stringify(convertToRaw(editorState.getCurrentContent())))}>
         Save
       </button>    </div>

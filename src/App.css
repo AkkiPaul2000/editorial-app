@@ -31,7 +31,10 @@
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-  
+  .heading{
+    width: 100%;
+    text-align: center;
+  }
   button{
     border-left:2px solid black ;
     border-top:2px solid black ;
