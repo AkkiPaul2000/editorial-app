@@ -34,20 +34,40 @@ const styleMap = {
     const currentBlockType = currentBlock.getType();
     const currentInlineStyles = editorState.getCurrentInlineStyle().toArray(); 
     console.log(currentText,currentBlockType,currentInlineStyles)
-    if (currentText.slice(-1)=="#" && char === ' ') {
+    if (currentText.slice(-1)=="#" && char === ' ' && currentBlockType.indexOf("header-one")==-1 ) {
       console.log(editorState)
       setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'));
       return 'handled';
     }
-    else if (currentText.slice(-3)=="***" && char === ' ') {
+    else if (currentText.slice(-1)==" " && char === '#' && currentBlockType.indexOf("header-one")!=-1 ) {
+      console.log(editorState)
+      setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'));
+      return 'handled';
+    }
+    
+    else if (currentText.slice(-3)=="***" && char === ' ' && currentInlineStyles.indexOf("UNDERLINE")==-1 ) {
       setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
       return 'handled';
     }
-    else if (currentText.slice(-3)=="```" && char === ' ') {
+    else if (currentText.slice(-3)==" **" && char === '*' && currentInlineStyles.indexOf("UNDERLINE")!=-1 ) {
+      setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
+      return 'handled';
+    }
+    else if (currentText.slice(-3)=="```" && char === ' ' && currentInlineStyles.indexOf("HIGHLIGHTED")==-1 ) {
       setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHTED'));
       return 'handled';
     }
-    else if (currentText.slice(-2)=="**" && char === ' ' ) {
+    else if (currentText.slice(-3)=="``" && char === '`' && currentInlineStyles.indexOf("HIGHLIGHTED")!=-1 ) {
+      setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHTED'));
+      return 'handled';
+    }
+    else if (currentText.slice(-2)=="**" && char === ' ' && currentInlineStyles.indexOf("red-line")==-1 ) {
+      const newEditorState = RichUtils.toggleInlineStyle(editorState, 'red-line');
+            onChange(newEditorState);
+            return 'handled';
+      return 'handled';
+    }
+    else if (currentText.slice(-2)==" *" && char === '*' && currentInlineStyles.indexOf("red-line")!=-1 ) {
       const newEditorState = RichUtils.toggleInlineStyle(editorState, 'red-line');
             onChange(newEditorState);
             return 'handled';
