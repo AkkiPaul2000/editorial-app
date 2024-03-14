@@ -1,38 +1,60 @@
-.App {
+/* .App{
+  margin: 3rem auto;
   text-align: center;
-}
+  border: 1px solid black;
+  flex-direction: column;
+  height: 35rem;
+  width: 80%;
+} */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.editor-outer{
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+  width: 80%;
+  height: 80%;
+  border: 3px solid #000;
+  border-radius: 3px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.App{
   display: flex;
   flex-direction: column;
-  align-items: center;
+  background-color: white;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  align-items: center;
+  width: 100vw; 
+  height: 100vh;  
+  border: 1px solid #000;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  button{
+    border-left:2px solid black ;
+    border-top:2px solid black ;
+    border-right:3.5px solid black ;
+    border-bottom:3.5px solid black ;
+    background-color: transparent;
+    margin: 10px 10px;
+    padding: 0px 1.5rem;
+    cursor: pointer;
   }
-  to {
-    transform: rotate(360deg);
-  }
+}
+.editor{
+  /* background-color: red; */
+  border: 1px solid black;
+}
+.red-line {
+  border-bottom: 2px solid red;
+  color:red
+}
+#red-line{
+  border-bottom: 2px solid red;
+  color:yellow;
+}
+:red-line{
+  border-bottom: 2px solid red;
+  color:yellow;
+}
+.red-line{
+  border-bottom: 2px solid red;
+  color:yellow;
 }
